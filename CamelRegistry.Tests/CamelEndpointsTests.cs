@@ -90,4 +90,28 @@ public class CamelEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
+
+    [Fact]
+    public async Task CreateCamel_WithDuplicateId_ReturnsConflict()
+    {
+        // Arrange
+        var camel = new Camel
+        {
+            Id = 123,
+            Name = "DuplicateCamel",
+            HumpCount = 1,
+            LastFed = DateTime.Now
+        };
+
+        // Act
+        // Create first camel
+        var response1 = await _client.PostAsJsonAsync("/camels", camel);
+        
+        // Attempt creating another camel with same ID
+        var response2 = await _client.PostAsJsonAsync("/camels", camel);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Created, response1.StatusCode);
+        Assert.Equal(HttpStatusCode.Conflict, response2.StatusCode);
+    }
 }

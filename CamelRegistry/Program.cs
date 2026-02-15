@@ -65,6 +65,11 @@ group.MapPost("/", async (Camel camel, AppDbContext db) =>
         return Results.BadRequest("HumpCount must be 1 or 2.");
     }
 
+    if (camel.Id != 0 && await db.Camels.AnyAsync(c => c.Id == camel.Id))
+    {
+        return Results.Conflict($"A camel with ID {camel.Id} already exists.");
+    }
+
     db.Camels.Add(camel);
     await db.SaveChangesAsync();
 
