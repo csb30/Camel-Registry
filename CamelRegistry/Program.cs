@@ -107,3 +107,5 @@ group.MapDelete("/{id}", async (int id, AppDbContext db) =>
 });
 
 app.Run();
+
+public partial class Program { }
