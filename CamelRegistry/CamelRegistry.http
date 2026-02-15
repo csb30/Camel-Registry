@@ -1,6 +1,59 @@
 @CamelRegistry_HostAddress = http://localhost:5020
 
-GET {{CamelRegistry_HostAddress}}/weatherforecast/
+### Get all camels
+GET {{CamelRegistry_HostAddress}}/camels
+Accept: application/json
+
+###
+
+### Create a new camel (Valid)
+POST {{CamelRegistry_HostAddress}}/camels
+Content-Type: application/json
+
+{
+  "name": "Joe",
+  "color": "Sandy",
+  "humpCount": 1,
+  "lastFed": "2025-10-27T10:00:00"
+}
+
+###
+
+### Create a new camel (Invalid HumpCount)
+POST {{CamelRegistry_HostAddress}}/camels
+Content-Type: application/json
+
+{
+  "name": "InvalidJoe",
+  "color": "Green",
+  "humpCount": 3,
+  "lastFed": "2025-10-27T10:00:00"
+}
+
+###
+
+### Get camel by ID
+GET {{CamelRegistry_HostAddress}}/camels/1
+Accept: application/json
+
+###
+
+### Update camel
+PUT {{CamelRegistry_HostAddress}}/camels/1
+Content-Type: application/json
+
+{
+    "id": 1,
+  "name": "Joe Updated",
+  "color": "Dark Sandy",
+  "humpCount": 2,
+  "lastFed": "2025-10-28T10:00:00"
+}
+
+###
+
+### Delete camel
+DELETE {{CamelRegistry_HostAddress}}/camels/1
 Accept: application/json
 
 ###
