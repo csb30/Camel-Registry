@@ -44,7 +44,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Minimal API Endpoints
-var group = app.MapGroup("/camels").WithTags("Camels");
+var group = app.MapGroup("/api/camels").WithTags("Camels");
 
 // GET /: List all camels
 group.MapGet("/", async (AppDbContext db) =>
@@ -73,7 +73,7 @@ group.MapPost("/", async (Camel camel, AppDbContext db) =>
     db.Camels.Add(camel);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/camels/{camel.Id}", camel);
+    return Results.Created($"/api/camels/{camel.Id}", camel);
 });
 
 // PUT /{id}: Update an existing Camel
