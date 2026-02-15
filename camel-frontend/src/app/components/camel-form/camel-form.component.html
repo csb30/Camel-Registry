@@ -1,0 +1,53 @@
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">{{ camelToEdit ? 'Edit Camel' : 'Add New Camel' }}</h4>
+    </div>
+    <div class="card-body">
+        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = null" aria-label="Close"></button>
+        </div>
+
+        <form [formGroup]="camelForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="name" class="form-label">Camel Name</label>
+                <input type="text" id="name" class="form-control"
+                    [class.is-valid]="name?.valid && (name?.dirty || name?.touched)"
+                    [class.is-invalid]="name?.invalid && (name?.dirty || name?.touched)" formControlName="name"
+                    placeholder="e.g. Example Camel">
+                <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="invalid-feedback">
+                    <div *ngIf="name?.errors?.['required']">Name is required.</div>
+                    <div *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters long.</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="humpCount" class="form-label">Hump Count</label>
+                <select id="humpCount" class="form-select"
+                    [class.is-valid]="humpCount?.valid && (humpCount?.dirty || humpCount?.touched)"
+                    [class.is-invalid]="humpCount?.invalid && (humpCount?.dirty || humpCount?.touched)"
+                    formControlName="humpCount">
+                    <option [ngValue]="null" disabled>Select hump count</option>
+                    <option [ngValue]="1">1 - Dromedary</option>
+                    <option [ngValue]="2">2 - Bactrian</option>
+                </select>
+                <div *ngIf="humpCount?.invalid && (humpCount?.dirty || humpCount?.touched)" class="invalid-feedback">
+                    <div *ngIf="humpCount?.errors?.['required']">Hump count is required.</div>
+                    <div *ngIf="humpCount?.errors?.['min'] || humpCount?.errors?.['max']">Hump count must be 1 or 2.
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" (click)="onCancel()" *ngIf="camelToEdit">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-success" [disabled]="camelForm.invalid || isSubmitting">
+                    <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"
+                        aria-hidden="true"></span>
+                    {{ camelToEdit ? 'Update Camel' : 'Add Camel' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
